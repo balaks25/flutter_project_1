@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+import './question.dart';
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return MyAppState();
+    return _MyAppState(); // adding _ makes that property / state private, prevent override.
   }
 }
 
-class MyAppState extends State<MyApp> {
-  var questionIndex = 0;
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
 
-  var question = [
+  var _question = [
     'What\'s your favorite color',
-    'what\'s your favorite animal'
+    'What\'s your favorite animal'
   ];
 
-  void answerQuestions() {
+  void _answerQuestions() {
     setState(() {
-      questionIndex += 1;
-      print(questionIndex);
+      _questionIndex += 1;
+      print(_questionIndex);
     });
   }
 
@@ -36,11 +39,13 @@ class MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text(question
-                .elementAt(questionIndex)), // or question[questionIndex]
-            RaisedButton(child: Text('Answer 1'), onPressed: answerQuestions),
+            Question(_question
+                .elementAt(_questionIndex)), // or question[questionIndex]
+            RaisedButton(child: Text('Answer 1'), onPressed: _answerQuestions),
             RaisedButton(
-                child: Text('Answer 2'), onPressed: () => print('selected 2')),
+                // deprecated - RaisedButton, so use ElevatedButton
+                child: Text('Answer 2'),
+                onPressed: () => print('selected 2')),
             RaisedButton(
                 child: Text('Answer 3'),
                 onPressed: () {
