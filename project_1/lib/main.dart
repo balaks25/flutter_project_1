@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -17,27 +17,49 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
+  int _questionIndex = 0;
+  int _totalScore = 0;
 
-  var question = [
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
+  // final question = const [ (or)
+  static const _questions = [
     {
       'question': 'what\'s you favorite color?',
-      'answer': ['Red', 'Black', 'White', 'Blue']
+      'answer': [
+        {'text': 'Red', 'score': 5},
+        {'text': 'Black', 'score': 10},
+        {'text': 'White', 'score': 3},
+        {'text': 'White', 'score': 7},
+      ]
     },
     {
       'question': 'who\'s you favorite animal?',
-      'answer': ['Dog', 'Cat', 'Lion']
+      'answer': [
+        {'text': 'Dog', 'score': 9},
+        {'text': 'Lion', 'score': 10},
+        {'text': 'Cat', 'score': 5},
+      ]
     },
     {
       'question': 'who\'s you favorite player?',
-      'answer': ['Dhoni', 'Vk', 'Sachin']
+      'answer': [
+        {'text': 'Vk', 'score': 8},
+        {'text': 'Dhoni', 'score': 10},
+        {'text': 'Sachin', 'score': 9},
+      ]
     },
   ];
 
-  void _answerQuestions() {
+  void _answerQuestions(int score) {
+    _totalScore += score;
     setState(() {
       _questionIndex += 1;
-      print(_questionIndex);
     });
   }
 
@@ -48,16 +70,12 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(question[_questionIndex]
-                ['question']), // or question[questionIndex]
-            ...(question[_questionIndex]['answer'] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestions, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                questions: _questions,
+                answerQuestions: _answerQuestions,
+                questionIndex: _questionIndex)
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
