@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _questionIndex = 0;
+  int _questionIndex = 0; // _ it is private
   int _totalScore = 0;
 
   void _resetQuiz() {
